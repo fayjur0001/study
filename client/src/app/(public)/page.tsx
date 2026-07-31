@@ -110,7 +110,7 @@ export default function HomePage() {
             {stats.map((stat) => (
               <StatCard
                 key={stat.label}
-                icon={stat.icon}
+                icon={<stat.icon className="h-5 w-5" />}
                 label={stat.label}
                 value={stat.value}
               />

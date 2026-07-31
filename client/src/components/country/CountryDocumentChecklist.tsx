@@ -1,3 +1,4 @@
+// src/components/country/CountryDocumentChecklist.tsx
 import { CheckCircle2 } from 'lucide-react'
 import type { Country } from '@/lib/mockData'
 

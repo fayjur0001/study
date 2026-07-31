@@ -53,17 +53,17 @@ export default function StudentDashboardPage() {
           </div>
 
           <StatCard
-            icon={GraduationCap}
+            icon={<GraduationCap className="h-5 w-5" />}
             label="Eligibility Score"
             value={`${profile?.eligibilityScore ?? 0}%`}
           />
           <StatCard
-            icon={BookMarked}
+            icon={<BookMarked className="h-5 w-5" />}
             label="Saved Universities"
             value={savedUniversitiesCount.toString()}
           />
           <StatCard
-            icon={Sparkles}
+            icon={<Sparkles className="h-5 w-5" />}
             label="Active Applications"
             value={activeApplications.length.toString()}
           />
@@ -90,11 +90,10 @@ export default function StudentDashboardPage() {
               </div>
             ) : (
               <EmptyState
-                icon={GraduationCap}
+                icon={<GraduationCap className="h-6 w-6" />}
                 title="No active applications yet"
                 description="Start by browsing universities that match your profile."
-                actionLabel="Browse universities"
-                actionHref="/universities"
+                action={{ label: 'Browse universities', href: '/universities' }}
               />
             )}
 

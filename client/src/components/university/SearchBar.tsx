@@ -6,14 +6,14 @@ import { cn } from '@/lib/utils'
 
 interface SearchBarProps {
   placeholder?: string
-  onChange: (value: string) => void
+  onChange?: (value: string) => void
   debounceMs?: number
   className?: string
 }
 
 export default function SearchBar({
   placeholder = 'Search...',
-  onChange,
+  onChange = () => {},
   debounceMs = 300,
   className,
 }: SearchBarProps) {

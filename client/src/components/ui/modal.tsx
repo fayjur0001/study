@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Dialog, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
 
 interface ModalProps {
@@ -13,22 +13,22 @@ interface ModalProps {
 
 export default function Modal({ isOpen, onClose, title, children, className }: ModalProps) {
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent
-        className={cn(
-          'rounded-2xl border border-slate-200 shadow-2xl p-6',
-          className
-        )}
-      >
-        {title && (
-          <DialogHeader>
-            <DialogTitle className="text-lg font-semibold tracking-tight text-slate-900">
-              {title}
-            </DialogTitle>
-          </DialogHeader>
-        )}
-        <div className="mt-2">{children}</div>
-      </DialogContent>
+    <Dialog
+      isOpen={isOpen}
+      onOpenChange={(open) => !open && onClose()}
+      className={cn(
+        'rounded-2xl border border-slate-200 shadow-2xl p-6',
+        className
+      )}
+    >
+      {title && (
+        <DialogHeader>
+          <DialogTitle className="text-lg font-semibold tracking-tight text-slate-900">
+            {title}
+          </DialogTitle>
+        </DialogHeader>
+      )}
+      <div className="mt-2">{children}</div>
     </Dialog>
   )
 }

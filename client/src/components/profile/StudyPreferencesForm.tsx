@@ -80,14 +80,17 @@ export default function StudyPreferencesForm({ profile }: StudyPreferencesFormPr
 
       <div className="space-y-1.5">
         <label className="text-sm font-medium text-slate-900">Target Degree Level</label>
-        <Select value={degreeLevel} onValueChange={(v) => setDegreeLevel(v as StudentProfile['targetDegreeLevel'])}>
+        <Select
+          selectedKey={degreeLevel}
+          onSelectionChange={(key) => setDegreeLevel(key as StudentProfile['targetDegreeLevel'])}
+        >
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="UG">Undergraduate</SelectItem>
-            <SelectItem value="PG">Postgraduate</SelectItem>
-            <SelectItem value="PhD">PhD</SelectItem>
+            <SelectItem id="UG">Undergraduate</SelectItem>
+            <SelectItem id="PG">Postgraduate</SelectItem>
+            <SelectItem id="PhD">PhD</SelectItem>
           </SelectContent>
         </Select>
       </div>

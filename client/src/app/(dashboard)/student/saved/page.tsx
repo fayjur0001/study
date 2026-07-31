@@ -22,17 +22,17 @@ export default function StudentSavedPage() {
           </p>
         </div>
 
-        <Tabs defaultValue="universities" className="space-y-6">
+        <Tabs defaultSelectedKey="universities" className="space-y-6">
           <TabsList>
-            <TabsTrigger value="universities">Saved Universities</TabsTrigger>
-            <TabsTrigger value="scholarships">Saved Scholarships</TabsTrigger>
+            <TabsTrigger id="universities">Saved Universities</TabsTrigger>
+            <TabsTrigger id="scholarships">Saved Scholarships</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="universities">
+          <TabsContent id="universities">
             <UniversityGrid universities={savedUniversities} />
           </TabsContent>
 
-          <TabsContent value="scholarships">
+          <TabsContent id="scholarships">
             <ScholarshipGrid scholarships={savedScholarships} />
           </TabsContent>
         </Tabs>

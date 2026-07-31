@@ -13,8 +13,8 @@ interface CountryDistributionChartProps {
 }
 
 const COLORS = [
-  THEME.primary,
-  THEME.accent,
+  THEME.primary[600],
+  THEME.accent[500],
   '#34d399', // emerald-400
   '#38bdf8', // sky-400
   '#a78bfa', // violet-400

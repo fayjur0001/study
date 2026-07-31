@@ -38,7 +38,7 @@ export default function DocumentUploadRow({
 
       <div className="flex items-center gap-3">
         {isUploaded && documentUrl && (
-          
+          <a
             href={documentUrl}
             target="_blank"
             rel="noopener noreferrer"

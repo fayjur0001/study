@@ -56,9 +56,9 @@ export default function CountryComparisonTable({ countries }: CountryComparisonT
               className="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-normal text-slate-600"
             >
               <Checkbox
-                checked={selectedIds.includes(country.id)}
-                onCheckedChange={() => toggleCountry(country.id)}
-                disabled={
+                isSelected={selectedIds.includes(country.id)}
+                onChange={() => toggleCountry(country.id)}
+                isDisabled={
                   !selectedIds.includes(country.id) && selectedIds.length >= MAX_SELECTION
                 }
               />

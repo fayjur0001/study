@@ -72,8 +72,8 @@ export default function UniversityFilters({
           {countryOptions.map((country) => (
             <label key={country.id} className="flex items-center gap-2 text-sm font-normal text-slate-600">
               <Checkbox
-                checked={filters.countries.includes(country.id)}
-                onCheckedChange={() => toggleCountry(country.id)}
+                isSelected={filters.countries.includes(country.id)}
+                onChange={() => toggleCountry(country.id)}
               />
               {country.name}
             </label>
@@ -85,15 +85,19 @@ export default function UniversityFilters({
         <h3 className="text-xs font-medium uppercase tracking-wide text-slate-400">
           Degree Level
         </h3>
-        <Select value={filters.degreeLevel} onValueChange={(v) => update({ degreeLevel: v })}>
+        <Select
+          selectedKey={filters.degreeLevel}
+          onSelectionChange={(key) => update({ degreeLevel: String(key) })}
+          placeholder="All levels"
+        >
           <SelectTrigger className="mt-3">
-            <SelectValue placeholder="All levels" />
+            <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All levels</SelectItem>
-            <SelectItem value="UG">Undergraduate</SelectItem>
-            <SelectItem value="PG">Postgraduate</SelectItem>
-            <SelectItem value="PhD">PhD</SelectItem>
+            <SelectItem id="all">All levels</SelectItem>
+            <SelectItem id="UG">Undergraduate</SelectItem>
+            <SelectItem id="PG">Postgraduate</SelectItem>
+            <SelectItem id="PhD">PhD</SelectItem>
           </SelectContent>
         </Select>
       </div>

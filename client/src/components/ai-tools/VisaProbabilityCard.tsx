@@ -68,13 +68,17 @@ export default function VisaProbabilityCard({ countries, profile }: VisaProbabil
 
       <div className="mt-5 space-y-1.5">
         <label className="text-sm font-medium text-slate-900">Destination Country</label>
-        <Select value={countryId} onValueChange={setCountryId}>
+        <Select
+          selectedKey={countryId}
+          onSelectionChange={(key) => setCountryId(String(key))}
+          placeholder="Select a country"
+        >
           <SelectTrigger>
-            <SelectValue placeholder="Select a country" />
+            <SelectValue />
           </SelectTrigger>
           <SelectContent>
             {countries.map((country) => (
-              <SelectItem key={country.id} value={country.id}>
+              <SelectItem key={country.id} id={country.id}>
                 {country.flagEmoji} {country.name}
               </SelectItem>
             ))}

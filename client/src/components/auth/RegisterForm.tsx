@@ -115,8 +115,8 @@ export default function RegisterForm() {
 
       <label className="flex items-start gap-2 text-sm font-normal text-slate-600">
         <Checkbox
-          checked={agreedToTerms}
-          onCheckedChange={(v) => setAgreedToTerms(!!v)}
+          isSelected={agreedToTerms}
+          onChange={setAgreedToTerms}
           className="mt-0.5"
         />
         I agree to the Terms of Service and Privacy Policy

@@ -34,14 +34,14 @@ export default function AdminContentPage() {
           </p>
         </div>
 
-        <Tabs defaultValue="blog" className="space-y-6">
+        <Tabs defaultSelectedKey="blog" className="space-y-6">
           <TabsList>
-            <TabsTrigger value="blog">Blog Posts</TabsTrigger>
-            <TabsTrigger value="faqs">FAQs</TabsTrigger>
-            <TabsTrigger value="forum">Forum Moderation</TabsTrigger>
+            <TabsTrigger id="blog">Blog Posts</TabsTrigger>
+            <TabsTrigger id="faqs">FAQs</TabsTrigger>
+            <TabsTrigger id="forum">Forum Moderation</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="blog">
+          <TabsContent id="blog">
             <div className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white shadow-sm">
               {blogPosts.map((post) => (
                 <div key={post.id} className="flex items-center justify-between p-5">
@@ -80,7 +80,7 @@ export default function AdminContentPage() {
             </div>
           </TabsContent>
 
-          <TabsContent value="faqs">
+          <TabsContent id="faqs">
             <div className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white shadow-sm">
               {faqs.map((faq) => (
                 <div key={faq.id} className="flex items-center justify-between p-5">
@@ -108,7 +108,7 @@ export default function AdminContentPage() {
             </div>
           </TabsContent>
 
-          <TabsContent value="forum">
+          <TabsContent id="forum">
             <div className="divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white shadow-sm">
               {forumPosts.map((post) => (
                 <div key={post.id} className="flex items-center justify-between p-5">

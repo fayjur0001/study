@@ -41,12 +41,12 @@ function ProgressContent({
   )
 
   return (
-    <ProgressContext value={context}>
+    <ProgressContext.Provider value={context}>
       {children}
       <ProgressTrack>
         <ProgressIndicator />
       </ProgressTrack>
-    </ProgressContext>
+    </ProgressContext.Provider>
   )
 }
 

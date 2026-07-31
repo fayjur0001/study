@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Slider } from '@/components/ui/slider'
 import {
   Select,
   SelectContent,
@@ -8,111 +9,146 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Slider } from '@/components/ui/slider'
-import { formatMoney } from '@/lib/utils'
+import { Checkbox } from '@/components/ui/checkbox'
+import { formatMoney, formatPercent } from '@/lib/utils'
 
-export interface ScholarshipFilterValues {
-  countryId: string
-  coverageType: string
-  amountRange: [number, number]
-  sortByDeadline: 'asc' | 'desc'
+export interface UniversityFilterValues {
+  countries: string[]
+  degreeLevel: string
+  tuitionRange: [number, number]
+  minAcceptanceRate: number
+  minPswpMonths: number
+  search: string
 }
 
-interface ScholarshipFiltersProps {
+interface UniversityFiltersProps {
   countryOptions: { id: string; name: string }[]
-  onFilterChange: (filters: ScholarshipFilterValues) => void
+  onFilterChange: (filters: UniversityFilterValues) => void
 }
 
-const DEFAULT_FILTERS: ScholarshipFilterValues = {
-  countryId: 'all',
-  coverageType: 'all',
-  amountRange: [0, 50000],
-  sortByDeadline: 'asc',
+const DEFAULT_FILTERS: UniversityFilterValues = {
+  countries: [],
+  degreeLevel: 'all',
+  tuitionRange: [0, 60000],
+  minAcceptanceRate: 0,
+  minPswpMonths: 0,
+  search: '',
 }
 
-export default function ScholarshipFilters({
+export default function UniversityFilters({
   countryOptions,
   onFilterChange,
-}: ScholarshipFiltersProps) {
-  const [filters, setFilters] = useState<ScholarshipFilterValues>(DEFAULT_FILTERS)
+}: UniversityFiltersProps) {
+  const [filters, setFilters] = useState<UniversityFilterValues>(DEFAULT_FILTERS)
 
-  function update(partial: Partial<ScholarshipFilterValues>) {
+  function update(partial: Partial<UniversityFilterValues>) {
     const next = { ...filters, ...partial }
     setFilters(next)
     onFilterChange(next)
   }
 
+  function toggleCountry(id: string) {
+    const next = filters.countries.includes(id)
+      ? filters.countries.filter((c) => c !== id)
+      : [...filters.countries, id]
+    update({ countries: next })
+  }
+
   return (
     <div className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
       <div>
-        <h3 className="text-xs font-medium uppercase tracking-wide text-slate-400">Country</h3>
-        <Select value={filters.countryId} onValueChange={(v) => update({ countryId: v })}>
-          <SelectTrigger className="mt-3">
-            <SelectValue placeholder="All countries" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All countries</SelectItem>
-            {countryOptions.map((country) => (
-              <SelectItem key={country.id} value={country.id}>
-                {country.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div>
-        <h3 className="text-xs font-medium uppercase tracking-wide text-slate-400">
-          Coverage Type
-        </h3>
-        <Select
-          value={filters.coverageType}
-          onValueChange={(v) => update({ coverageType: v })}
-        >
-          <SelectTrigger className="mt-3">
-            <SelectValue placeholder="All types" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All types</SelectItem>
-            <SelectItem value="full">Full Coverage</SelectItem>
-            <SelectItem value="partial">Partial Coverage</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div>
-        <h3 className="text-xs font-medium uppercase tracking-wide text-slate-400">
-          Amount Range
-        </h3>
-        <p className="mt-2 text-sm font-normal text-slate-500">
-          {formatMoney(filters.amountRange[0])} – {formatMoney(filters.amountRange[1])}
-        </p>
-        <Slider
-          className="mt-3"
-          min={0}
-          max={50000}
-          step={1000}
-          value={filters.amountRange}
-          onValueChange={(v) => update({ amountRange: v as [number, number] })}
+        <input
+          type="text"
+          value={filters.search}
+          onChange={(e) => update({ search: e.target.value })}
+          placeholder="Search universities..."
+          className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none transition-all duration-200 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
         />
       </div>
 
       <div>
+        <h3 className="text-xs font-medium uppercase tracking-wide text-slate-400">Country</h3>
+        <div className="mt-3 space-y-2">
+          {countryOptions.map((country) => (
+            <label key={country.id} className="flex items-center gap-2 text-sm font-normal text-slate-600">
+              <Checkbox
+                isSelected={filters.countries.includes(country.id)}
+                onChange={() => toggleCountry(country.id)}
+              />
+              {country.name}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div>
         <h3 className="text-xs font-medium uppercase tracking-wide text-slate-400">
-          Sort by Deadline
+          Degree Level
         </h3>
         <Select
-          value={filters.sortByDeadline}
-          onValueChange={(v) => update({ sortByDeadline: v as 'asc' | 'desc' })}
+          selectedKey={filters.degreeLevel}
+          onSelectionChange={(key) => update({ degreeLevel: String(key) })}
+          placeholder="All levels"
         >
           <SelectTrigger className="mt-3">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="asc">Soonest first</SelectItem>
-            <SelectItem value="desc">Latest first</SelectItem>
+            <SelectItem id="all">All levels</SelectItem>
+            <SelectItem id="UG">Undergraduate</SelectItem>
+            <SelectItem id="PG">Postgraduate</SelectItem>
+            <SelectItem id="PhD">PhD</SelectItem>
           </SelectContent>
         </Select>
+      </div>
+
+      <div>
+        <h3 className="text-xs font-medium uppercase tracking-wide text-slate-400">
+          Tuition Range
+        </h3>
+        <p className="mt-2 text-sm font-normal text-slate-500">
+          {formatMoney(filters.tuitionRange[0])} – {formatMoney(filters.tuitionRange[1])}
+        </p>
+        <Slider
+          className="mt-3"
+          min={0}
+          max={60000}
+          step={1000}
+          value={filters.tuitionRange}
+          onValueChange={(v) => update({ tuitionRange: v as [number, number] })}
+        />
+      </div>
+
+      <div>
+        <h3 className="text-xs font-medium uppercase tracking-wide text-slate-400">
+          Min. Acceptance Rate
+        </h3>
+        <p className="mt-2 text-sm font-normal text-slate-500">
+          {formatPercent(filters.minAcceptanceRate)}
+        </p>
+        <Slider
+          className="mt-3"
+          min={0}
+          max={100}
+          step={5}
+          value={[filters.minAcceptanceRate]}
+          onValueChange={(v) => update({ minAcceptanceRate: v[0] })}
+        />
+      </div>
+
+      <div>
+        <h3 className="text-xs font-medium uppercase tracking-wide text-slate-400">
+          Min. PSWP Duration (months)
+        </h3>
+        <p className="mt-2 text-sm font-normal text-slate-500">{filters.minPswpMonths} months</p>
+        <Slider
+          className="mt-3"
+          min={0}
+          max={36}
+          step={3}
+          value={[filters.minPswpMonths]}
+          onValueChange={(v) => update({ minPswpMonths: v[0] })}
+        />
       </div>
     </div>
   )

@@ -25,32 +25,32 @@ export default function StudentAiToolsPage() {
           </p>
         </div>
 
-        <Tabs defaultValue="sop" className="space-y-6">
+        <Tabs defaultSelectedKey="sop" className="space-y-6">
           <TabsList className="flex-wrap h-auto">
-            <TabsTrigger value="sop">SOP Generator</TabsTrigger>
-            <TabsTrigger value="cv">CV Reviewer</TabsTrigger>
-            <TabsTrigger value="budget">Budget Calculator</TabsTrigger>
-            <TabsTrigger value="visa">Visa Probability</TabsTrigger>
-            <TabsTrigger value="matches">Find Matches</TabsTrigger>
+            <TabsTrigger id="sop">SOP Generator</TabsTrigger>
+            <TabsTrigger id="cv">CV Reviewer</TabsTrigger>
+            <TabsTrigger id="budget">Budget Calculator</TabsTrigger>
+            <TabsTrigger id="visa">Visa Probability</TabsTrigger>
+            <TabsTrigger id="matches">Find Matches</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="sop">
+          <TabsContent id="sop">
             <SOPGeneratorCard />
           </TabsContent>
 
-          <TabsContent value="cv">
+          <TabsContent id="cv">
             <CVReviewerCard />
           </TabsContent>
 
-          <TabsContent value="budget">
+          <TabsContent id="budget">
             <BudgetCalculatorCard countries={mockCountries} />
           </TabsContent>
 
-          <TabsContent value="visa">
+          <TabsContent id="visa">
             {profile && <VisaProbabilityCard countries={mockCountries} profile={profile} />}
           </TabsContent>
 
-          <TabsContent value="matches">
+          <TabsContent id="matches">
             <RecommendationEngine universities={mockUniversities} />
           </TabsContent>
         </Tabs>

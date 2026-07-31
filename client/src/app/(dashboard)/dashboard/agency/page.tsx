@@ -27,6 +27,19 @@ export default function AgencyDashboardPage() {
     new Map(agencyApplications.map((a) => [a.studentId, a])).values()
   )
 
+  const trendData = (() => {
+    const counts = new Map<string, number>()
+    agencyApplications.forEach((app) => {
+      const dateStr = app.submittedAt ?? app.updatedAt
+      const month = new Date(dateStr).toLocaleString('en-US', { month: 'short' })
+      counts.set(month, (counts.get(month) ?? 0) + 1)
+    })
+    return Array.from(counts.entries()).map(([month, applications]) => ({
+      month,
+      applications,
+    }))
+  })()
+
   return (
     <DashboardLayout role="agency">
       <div className="space-y-8">
@@ -68,7 +81,7 @@ export default function AgencyDashboardPage() {
             <h2 className="text-2xl font-semibold tracking-tight text-slate-900 mb-4">
               Application Trend
             </h2>
-            <ApplicationTrendChart />
+            <ApplicationTrendChart data={trendData} />
           </div>
 
           <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-4">

@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Menu } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import MobileMenu from '@/components/layout/MobileMenu'
 
 const navLinks = [
@@ -42,17 +43,17 @@ export default function Navbar({ isLoggedIn = false }: NavbarProps) {
 
         <div className="hidden items-center gap-3 md:flex">
           {isLoggedIn ? (
-            <Button asChild>
-              <Link href="/dashboard/student">Go to Dashboard</Link>
-            </Button>
+            <Link href="/dashboard/student" className={cn(buttonVariants({ variant: 'default' }))}>
+              Go to Dashboard
+            </Link>
           ) : (
             <>
-              <Button variant="ghost" asChild>
-                <Link href="/auth/login">Login</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/auth/register">Register</Link>
-              </Button>
+              <Link href="/auth/login" className={cn(buttonVariants({ variant: 'ghost' }))}>
+                Login
+              </Link>
+              <Link href="/auth/register" className={cn(buttonVariants({ variant: 'default' }))}>
+                Register
+              </Link>
             </>
           )}
         </div>
@@ -73,17 +74,17 @@ export default function Navbar({ isLoggedIn = false }: NavbarProps) {
         links={navLinks}
         footer={
           isLoggedIn ? (
-            <Button asChild className="w-full">
-              <Link href="/dashboard/student">Go to Dashboard</Link>
-            </Button>
+            <Link href="/dashboard/student" className={cn(buttonVariants({ variant: 'default' }), 'w-full')}>
+              Go to Dashboard
+            </Link>
           ) : (
             <div className="flex flex-col gap-2">
-              <Button variant="outline" asChild className="w-full">
-                <Link href="/auth/login">Login</Link>
-              </Button>
-              <Button asChild className="w-full">
-                <Link href="/auth/register">Register</Link>
-              </Button>
+              <Link href="/auth/login" className={cn(buttonVariants({ variant: 'outline' }), 'w-full')}>
+                Login
+              </Link>
+              <Link href="/auth/register" className={cn(buttonVariants({ variant: 'default' }), 'w-full')}>
+                Register
+              </Link>
             </div>
           )
         }

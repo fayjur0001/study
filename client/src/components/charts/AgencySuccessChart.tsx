@@ -59,7 +59,7 @@ export default function AgencySuccessChart({ data }: AgencySuccessChartProps) {
                 fontSize: '0.875rem',
               }}
             />
-            <Bar dataKey="successCount" fill={THEME.primary} radius={[0, 6, 6, 0]} />
+            <Bar dataKey="successCount" fill={THEME.primary[600]} radius={[0, 6, 6, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

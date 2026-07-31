@@ -1,8 +1,8 @@
 'use client'
 
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -11,39 +11,46 @@ import {
 } from 'recharts'
 import { THEME } from '@/lib/theme'
 
-interface TrendPoint {
-  month: string
-  applications: number
+interface AgencySuccessPoint {
+  agencyName: string
+  successCount: number
 }
 
-interface ApplicationTrendChartProps {
-  data: TrendPoint[]
+interface AgencySuccessChartProps {
+  data: AgencySuccessPoint[]
 }
 
-export default function ApplicationTrendChart({ data }: ApplicationTrendChartProps) {
+export default function AgencySuccessChart({ data }: AgencySuccessChartProps) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
       <h3 className="text-lg font-semibold tracking-tight text-slate-900">
-        Application Trend
+        Top Agencies by Success
       </h3>
       <p className="mt-1 text-sm font-normal text-slate-500">
-        Applications submitted over the past months
+        Ranked by number of successful student placements
       </p>
 
       <div className="mt-6 h-72 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
+          <BarChart
+            data={data}
+            layout="vertical"
+            margin={{ top: 5, right: 20, left: 10, bottom: 0 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" horizontal={false} />
             <XAxis
-              dataKey="month"
-              tick={{ fontSize: 12, fill: '#64748b' }}
-              axisLine={{ stroke: '#e2e8f0' }}
-              tickLine={false}
-            />
-            <YAxis
+              type="number"
               tick={{ fontSize: 12, fill: '#64748b' }}
               axisLine={false}
               tickLine={false}
+            />
+            <YAxis
+              type="category"
+              dataKey="agencyName"
+              tick={{ fontSize: 12, fill: '#64748b' }}
+              axisLine={false}
+              tickLine={false}
+              width={140}
             />
             <Tooltip
               contentStyle={{
@@ -52,15 +59,8 @@ export default function ApplicationTrendChart({ data }: ApplicationTrendChartPro
                 fontSize: '0.875rem',
               }}
             />
-            <Line
-              type="monotone"
-              dataKey="applications"
-              stroke={THEME.primary}
-              strokeWidth={2.5}
-              dot={{ r: 3, fill: THEME.primary }}
-              activeDot={{ r: 5 }}
-            />
-          </LineChart>
+            <Bar dataKey="successCount" fill={THEME.primary[600]} radius={[0, 6, 6, 0]} />
+          </BarChart>
         </ResponsiveContainer>
       </div>
     </div>

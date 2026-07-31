@@ -32,27 +32,27 @@ export default function StudentProfilePage() {
           </p>
         </div>
 
-        <Tabs defaultValue="personal" className="space-y-6">
+        <Tabs defaultSelectedKey="personal" className="space-y-6">
           <TabsList>
-            <TabsTrigger value="personal">Personal &amp; Academic</TabsTrigger>
-            <TabsTrigger value="language">Language Scores</TabsTrigger>
-            <TabsTrigger value="financial">Financial</TabsTrigger>
-            <TabsTrigger value="preferences">Study Preferences</TabsTrigger>
+            <TabsTrigger id="personal">Personal &amp; Academic</TabsTrigger>
+            <TabsTrigger id="language">Language Scores</TabsTrigger>
+            <TabsTrigger id="financial">Financial</TabsTrigger>
+            <TabsTrigger id="preferences">Study Preferences</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="personal">
+          <TabsContent id="personal">
             <ProfileForm profile={profile} />
           </TabsContent>
 
-          <TabsContent value="language">
+          <TabsContent id="language">
             <LanguageScoresForm profile={profile} />
           </TabsContent>
 
-          <TabsContent value="financial">
+          <TabsContent id="financial">
             <FinancialProfileForm profile={profile} />
           </TabsContent>
 
-          <TabsContent value="preferences">
+          <TabsContent id="preferences">
             <StudyPreferencesForm profile={profile} />
           </TabsContent>
         </Tabs>

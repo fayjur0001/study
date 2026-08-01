@@ -7,27 +7,33 @@ interface UniversityProgramsProps {
 
 export default function UniversityPrograms({ university }: UniversityProgramsProps) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h2 className="text-2xl font-semibold tracking-tight text-slate-900">
-        Programs Offered
-      </h2>
+    <div className="rounded-[24px] border border-slate-100 bg-white p-8 shadow-sm">
+      <h2 className="text-2xl font-semibold tracking-tight text-slate-900">Programs Offered</h2>
 
-      <ul className="mt-5 space-y-3">
-        {university.programs.map((program) => (
-          <li
+      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+        {university.programs.map((program, i) => (
+          <div
             key={program}
-            className="flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3"
+            className={
+              i === 0
+                ? 'rounded-2xl bg-[#0d3286] p-6 text-white md:col-span-2'
+                : 'rounded-2xl bg-slate-50 p-6'
+            }
           >
-            <div className="flex items-center gap-3">
-              <BookOpen className="h-4 w-4 text-indigo-600" />
-              <span className="text-sm font-normal text-slate-900">{program}</span>
+            <div className="mb-3 flex items-center gap-2">
+              <BookOpen className={i === 0 ? 'h-4 w-4 text-white' : 'h-4 w-4 text-[#0d3286]'} />
+              {i === 0 && (
+                <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide">
+                  Most Popular
+                </span>
+              )}
             </div>
-            <span className="rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-medium uppercase tracking-wide text-indigo-700">
-              {university.entryRequirements ? 'Degree' : 'Program'}
-            </span>
-          </li>
+            <p className={i === 0 ? 'text-lg font-semibold' : 'text-base font-semibold text-slate-900'}>
+              {program}
+            </p>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   )
 }

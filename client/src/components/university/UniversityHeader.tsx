@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Bookmark, GraduationCap, Star } from 'lucide-react'
+import { Bookmark, GraduationCap, MapPin, Star } from 'lucide-react'
 import type { University } from '@/lib/mockData'
-import { cn } from '@/lib/utils'
+import { cn, formatMoney, formatPercent } from '@/lib/utils'
 
 interface UniversityHeaderProps {
   university: University
@@ -13,69 +13,79 @@ export default function UniversityHeader({ university }: UniversityHeaderProps) 
   const [isSaved, setIsSaved] = useState(false)
   const bannerImage = university.campusImages?.[0]
 
+  const quickStats = [
+    { label: 'World Rank', value: university.worldRanking ? `#${university.worldRanking}` : 'Unranked' },
+    { label: 'Acceptance Rate', value: formatPercent(university.acceptanceRate) },
+    { label: 'Avg. Tuition', value: formatMoney(university.tuitionMin) },
+    { label: 'Rating', value: `${university.rating.toFixed(1)} / 5` },
+  ]
+
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="relative h-48 w-full overflow-hidden bg-slate-100 md:h-64">
+    <section className="relative h-[520px] w-full overflow-hidden bg-[#0d3286]">
+      <div className="absolute inset-0 z-0">
         {bannerImage ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={bannerImage} alt={university.name} className="h-full w-full object-cover" />
+          <img src={bannerImage} alt={university.name} className="h-full w-full object-cover opacity-70" />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-slate-300">
-            <GraduationCap className="h-12 w-12" />
+          <div className="flex h-full w-full items-center justify-center text-white/30">
+            <GraduationCap className="h-16 w-16" />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0d3286] via-[#0d3286]/20 to-transparent" />
       </div>
 
-      <div className="flex flex-col gap-4 p-6 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex items-start gap-4">
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-            {university.logo ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={university.logo} alt={`${university.name} logo`} className="h-full w-full object-contain p-2" />
-            ) : (
-              <GraduationCap className="h-8 w-8 text-indigo-600" />
-            )}
-          </div>
+      <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 backdrop-blur-md">
+          <GraduationCap className="h-4 w-4 text-white" />
+          <span className="text-xs font-medium uppercase tracking-wider text-white">
+            Premium Partner Institution
+          </span>
+        </div>
 
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-              {university.name}
-            </h1>
-            <p className="mt-1 text-sm font-normal text-slate-500">
-              {university.countryName} · {university.city}
-            </p>
-            <div className="mt-2 flex items-center gap-1.5">
-              <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
-              <span className="text-sm font-medium text-slate-900">
-                {university.rating.toFixed(1)}
-              </span>
-              <span className="text-sm font-normal text-slate-400">
-                ({university.reviewCount} reviews)
-              </span>
+        <div className="mb-2 flex flex-wrap items-start justify-between gap-4">
+          <h1 className="text-3xl font-bold text-white md:text-5xl">{university.name}</h1>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsSaved((prev) => !prev)}
+              className={cn(
+                'flex h-11 w-11 items-center justify-center rounded-xl border transition-all active:scale-95',
+                isSaved
+                  ? 'border-white bg-white text-[#0d3286]'
+                  : 'border-white/30 bg-white/10 text-white hover:bg-white/20'
+              )}
+              aria-label={isSaved ? 'Unsave university' : 'Save university'}
+            >
+              <Bookmark className={cn('h-4 w-4', isSaved && 'fill-[#0d3286]')} />
+            </button>
+            <button className="rounded-xl bg-white px-6 py-3 text-sm font-bold text-[#0d3286] shadow-lg transition-transform hover:scale-105 active:scale-95">
+              Apply Now
+            </button>
+          </div>
+        </div>
+
+        <div className="mb-10 flex items-center gap-4 text-white/90">
+          <span className="flex items-center gap-1">
+            <MapPin className="h-4 w-4" /> {university.city}, {university.countryName}
+          </span>
+          <span className="h-1 w-1 rounded-full bg-white/50" />
+          <span className="flex items-center gap-1">
+            <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+            {university.rating.toFixed(1)} ({university.reviewCount} reviews)
+          </span>
+        </div>
+
+        <div className="grid w-full max-w-4xl grid-cols-2 gap-4 md:grid-cols-4">
+          {quickStats.map((stat) => (
+            <div
+              key={stat.label}
+              className="rounded-2xl border border-white/20 bg-white/10 p-5 text-white backdrop-blur-xl"
+            >
+              <p className="mb-1 text-xs uppercase tracking-wide text-white/70">{stat.label}</p>
+              <p className="text-2xl font-bold">{stat.value}</p>
             </div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setIsSaved((prev) => !prev)}
-            className={cn(
-              'flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-200 active:scale-[0.98]',
-              isSaved
-                ? 'border-amber-500 bg-amber-50 text-amber-500'
-                : 'border-slate-200 text-slate-500 hover:bg-slate-50'
-            )}
-            aria-label={isSaved ? 'Unsave university' : 'Save university'}
-          >
-            <Bookmark className={cn('h-4 w-4', isSaved && 'fill-amber-500')} />
-          </button>
-
-          <button className="rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-indigo-700 active:scale-[0.98]">
-            Apply Now
-          </button>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   )
 }

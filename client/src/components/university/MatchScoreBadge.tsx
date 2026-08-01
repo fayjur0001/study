@@ -17,7 +17,7 @@ export default function MatchScoreBadge({ score, size = 'md', className }: Match
   return (
     <div
       className={cn(
-        'flex items-center justify-center rounded-full bg-amber-500 font-semibold tracking-tight text-white shadow-sm',
+        'flex items-center justify-center rounded-full bg-[#0d3286] font-semibold tracking-tight text-white shadow-sm',
         sizeMap[size],
         className
       )}

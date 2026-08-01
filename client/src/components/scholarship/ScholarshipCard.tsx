@@ -1,5 +1,7 @@
 import Link from 'next/link'
+import { Clock } from 'lucide-react'
 import type { Scholarship } from '@/lib/mockData'
+import { mockCountries } from '@/lib/mockData'
 import { formatMoney } from '@/lib/utils'
 import ScholarshipDeadlineBadge from '@/components/scholarship/ScholarshipDeadlineBadge'
 import { cn } from '@/lib/utils'
@@ -9,39 +11,42 @@ interface ScholarshipCardProps {
 }
 
 export default function ScholarshipCard({ scholarship }: ScholarshipCardProps) {
+  const countryImage = mockCountries.find((c) => c.id === scholarship.countryId)?.image
+
   return (
     <Link
       href={`/scholarships/${scholarship.id}`}
-      className="group block rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+      className="group flex flex-col overflow-hidden rounded-[24px] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
-      <div className="flex items-start justify-between gap-3">
+      <div className="relative h-40">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        {countryImage && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={countryImage} alt={scholarship.countryName} className="h-full w-full object-cover" />
+        )}
         <span
           className={cn(
-            'inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium uppercase tracking-wide',
-            scholarship.coverageType === 'full'
-              ? 'bg-emerald-50 text-emerald-600'
-              : 'bg-sky-50 text-sky-600'
+            'absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-bold backdrop-blur',
+            scholarship.coverageType === 'full' ? 'text-[#0d3286]' : 'text-[#3156c4]'
           )}
         >
-          {scholarship.coverageType === 'full' ? 'Full Coverage' : 'Partial Coverage'}
+          {scholarship.coverageType === 'full' ? 'Full Ride' : 'Partial'}
         </span>
-        <ScholarshipDeadlineBadge deadline={scholarship.deadline} />
       </div>
 
-      <h3 className="mt-4 text-lg font-semibold tracking-tight text-slate-900 line-clamp-2">
-        {scholarship.title}
-      </h3>
-      <p className="mt-1 text-sm font-normal text-slate-500">
-        {scholarship.provider} · {scholarship.countryName}
-      </p>
-
-      <div className="mt-4 flex items-center justify-between">
-        <span className="text-lg font-semibold tracking-tight text-slate-900">
-          {formatMoney(scholarship.amount)}
-        </span>
-        <span className="text-sm font-medium text-indigo-600 group-hover:text-indigo-700">
-          View Details →
-        </span>
+      <div className="flex flex-grow flex-col p-6">
+        <h4 className="mb-2 text-lg font-semibold text-slate-900 line-clamp-2">
+          {scholarship.title}
+        </h4>
+        <p className="mb-4 text-sm text-slate-500 line-clamp-2">
+          {scholarship.provider} · {scholarship.countryName}
+        </p>
+        <div className="mt-auto flex items-center justify-between">
+          <span className="text-xl font-bold text-[#0d3286]">
+            {formatMoney(scholarship.amount)}
+          </span>
+          <ScholarshipDeadlineBadge deadline={scholarship.deadline} />
+        </div>
       </div>
     </Link>
   )

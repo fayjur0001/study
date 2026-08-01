@@ -3,18 +3,31 @@
 // src/app/(public)/contact/page.tsx
 import { useState, FormEvent } from 'react'
 import toast from 'react-hot-toast'
-import { Mail, Phone, MapPin, Clock } from 'lucide-react'
+import { Mail, Phone, MapPin, Send } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
-import PageHeader from '@/components/common/PageHeader'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+
+const subjectOptions = [
+  { id: 'general', label: 'General Inquiry' },
+  { id: 'application', label: 'Application Support' },
+  { id: 'scholarship', label: 'Scholarship Guidance' },
+  { id: 'agency', label: 'Partner Agency Program' },
+]
 
 export default function ContactPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [subject, setSubject] = useState('')
+  const [subject, setSubject] = useState('general')
   const [message, setMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -30,135 +43,146 @@ export default function ContactPage() {
       toast.success("Message sent — we'll get back to you within 1-2 business days.")
       setName('')
       setEmail('')
-      setSubject('')
+      setSubject('general')
       setMessage('')
     }, 1200)
   }
-
-  const officeInfo = [
-    {
-      icon: Mail,
-      label: 'Email',
-      value: 'support@studybridge.com',
-    },
-    {
-      icon: Phone,
-      label: 'Phone',
-      value: '+880 1700-000000',
-    },
-    {
-      icon: MapPin,
-      label: 'Office',
-      value: 'Gulshan Avenue, Dhaka, Bangladesh',
-    },
-    {
-      icon: Clock,
-      label: 'Hours',
-      value: 'Sun – Thu, 9:00 AM – 6:00 PM',
-    },
-  ]
 
   return (
     <>
       <Navbar />
 
-      <div className="bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <PageHeader
-            title="Get in Touch"
-            description="Questions about universities, scholarships, or your application? Our team is here to help."
-          />
+      <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 md:py-24">
+        <div className="mb-16 text-center md:text-left">
+          <h1 className="text-3xl font-bold text-[#0d3286] md:text-5xl">Get in Touch</h1>
+          <p className="mt-4 max-w-2xl text-slate-500">
+            Have questions about your global education journey? Our team of academic
+            experts and advisors are here to bridge the gap between you and your
+            future.
+          </p>
+        </div>
 
-          <div className="mt-10 grid lg:grid-cols-3 gap-6">
-            {/* Contact form */}
-            <div className="lg:col-span-2 rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm">
-              <h2 className="text-lg font-semibold text-slate-900">Send us a message</h2>
-              <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <div className="space-y-2">
-                    <label className="text-sm font-normal text-slate-500" htmlFor="name">
-                      Full Name *
-                    </label>
-                    <Input
-                      id="name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Tanvir Ahmed"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-normal text-slate-500" htmlFor="email">
-                      Email Address *
-                    </label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="you@example.com"
-                    />
-                  </div>
-                </div>
-
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
+          {/* Form */}
+          <div className="rounded-[24px] bg-white p-6 shadow-sm md:col-span-7 md:p-8">
+            <h2 className="mb-8 text-xl font-semibold text-[#0d3286]">Send us a message</h2>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid gap-6 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <label className="text-sm font-normal text-slate-500" htmlFor="subject">
-                    Subject
+                  <label className="text-xs font-bold uppercase tracking-wide text-slate-500" htmlFor="name">
+                    Full Name
                   </label>
                   <Input
-                    id="subject"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    placeholder="What's this about?"
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="John Doe"
                   />
                 </div>
-
                 <div className="space-y-2">
-                  <label className="text-sm font-normal text-slate-500" htmlFor="message">
-                    Message *
+                  <label className="text-xs font-bold uppercase tracking-wide text-slate-500" htmlFor="email">
+                    Email Address
                   </label>
-                  <Textarea
-                    id="message"
-                    rows={6}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Tell us how we can help..."
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="john@example.com"
                   />
                 </div>
+              </div>
 
-                <Button
-                  type="submit"
-                  isDisabled={isSubmitting}
-                  className="w-full sm:w-auto rounded-lg bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] transition-all duration-200 ease-out"
-                >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
-                </Button>
-              </form>
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-wide text-slate-500">
+                  Subject
+                </label>
+                <Select selectedKey={subject} onSelectionChange={(key) => setSubject(String(key))}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {subjectOptions.map((opt) => (
+                      <SelectItem key={opt.id} id={opt.id}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-wide text-slate-500" htmlFor="message">
+                  Message
+                </label>
+                <Textarea
+                  id="message"
+                  rows={6}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="How can we help you achieve your study goals?"
+                />
+              </div>
+
+              <Button
+                type="submit"
+                isDisabled={isSubmitting}
+                className="w-full gap-3 rounded-xl bg-[#0d3286] py-6 text-base font-bold hover:bg-[#0d3286]/90 sm:w-auto sm:px-10"
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+                <Send className="h-4 w-4" />
+              </Button>
+            </form>
+          </div>
+
+          {/* Info */}
+          <div className="space-y-6 md:col-span-5">
+            <div className="rounded-[24px] bg-[#0d3286] p-6 text-white shadow-sm md:p-8">
+              <h3 className="mb-6 text-lg font-semibold">Direct Support</h3>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="rounded-full bg-white/10 p-3">
+                    <Mail className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase text-white/60">Email Support</p>
+                    <p className="text-base font-semibold">support@studybridge.com</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="rounded-full bg-white/10 p-3">
+                    <Phone className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase text-white/60">Hotline</p>
+                    <p className="text-base font-semibold">+880 1700-000000</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Office info */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm h-fit">
-              <h2 className="text-lg font-semibold text-slate-900">Contact Information</h2>
-              <div className="mt-6 space-y-5">
-                {officeInfo.map((item) => (
-                  <div key={item.label} className="flex items-start gap-3">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
-                      <item.icon className="h-4 w-4" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium tracking-wide uppercase text-slate-400">
-                        {item.label}
-                      </p>
-                      <p className="text-sm leading-relaxed text-slate-900 mt-0.5">
-                        {item.value}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+            <div className="rounded-[24px] bg-white p-6 shadow-sm md:p-8">
+              <h3 className="mb-6 text-lg font-semibold text-[#0d3286]">Our Office</h3>
+              <div className="group">
+                <div className="mb-2 flex items-center justify-between">
+                  <h4 className="flex items-center gap-2 text-base font-bold text-slate-900">
+                    <MapPin className="h-5 w-5 text-[#0d3286]" /> Dhaka, Bangladesh
+                  </h4>
+                  <span className="rounded-full bg-[#dce1ff] px-2 py-1 text-xs font-medium text-[#0d3286]">
+                    HQ
+                  </span>
+                </div>
+                <p className="text-sm text-slate-500">
+                  Gulshan Avenue, Dhaka 1212, Bangladesh
+                </p>
+              </div>
+              <div className="mt-6 border-t border-slate-100 pt-6 text-sm text-slate-500">
+                Sun – Thu, 9:00 AM – 6:00 PM (GMT+6)
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </main>
 
       <Footer />
     </>

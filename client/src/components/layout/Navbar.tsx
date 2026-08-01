@@ -23,18 +23,21 @@ export default function Navbar({ isLoggedIn = false }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b border-slate-200/60 bg-white/85 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="text-xl font-semibold tracking-tight text-indigo-600">
+        <Link
+          href="/"
+          className="text-xl font-extrabold tracking-tight text-[#0d3286]"
+        >
           StudyBridge
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-6 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-normal text-slate-600 transition-colors duration-150 hover:text-indigo-600"
+              className="text-sm font-medium text-slate-600 transition-colors duration-150 hover:text-[#0d3286]"
             >
               {link.label}
             </Link>
@@ -43,16 +46,31 @@ export default function Navbar({ isLoggedIn = false }: NavbarProps) {
 
         <div className="hidden items-center gap-3 md:flex">
           {isLoggedIn ? (
-            <Link href="/dashboard/student" className={cn(buttonVariants({ variant: 'default' }))}>
+            <Link
+              href="/dashboard/student"
+              className={cn(
+                buttonVariants({ variant: 'default' }),
+                'rounded-lg bg-[#0d3286] px-4 py-1.5 font-bold text-white shadow-sm hover:bg-[#0d3286]/90'
+              )}
+            >
               Go to Dashboard
             </Link>
           ) : (
             <>
-              <Link href="/auth/login" className={cn(buttonVariants({ variant: 'ghost' }))}>
+              <Link
+                href="/auth/login"
+                className="px-3 py-1.5 text-sm font-semibold text-slate-600 transition-colors hover:text-[#0d3286]"
+              >
                 Login
               </Link>
-              <Link href="/auth/register" className={cn(buttonVariants({ variant: 'default' }))}>
-                Register
+              <Link
+                href="/auth/register"
+                className={cn(
+                  buttonVariants({ variant: 'default' }),
+                  'rounded-lg bg-[#0d3286] px-4 py-1.5 font-bold text-white shadow-sm hover:bg-[#0d3286]/90'
+                )}
+              >
+                Sign Up
               </Link>
             </>
           )}
@@ -74,16 +92,25 @@ export default function Navbar({ isLoggedIn = false }: NavbarProps) {
         links={navLinks}
         footer={
           isLoggedIn ? (
-            <Link href="/dashboard/student" className={cn(buttonVariants({ variant: 'default' }), 'w-full')}>
+            <Link
+              href="/dashboard/student"
+              className={cn(buttonVariants({ variant: 'default' }), 'w-full bg-[#0d3286] hover:bg-[#0d3286]/90')}
+            >
               Go to Dashboard
             </Link>
           ) : (
             <div className="flex flex-col gap-2">
-              <Link href="/auth/login" className={cn(buttonVariants({ variant: 'outline' }), 'w-full')}>
+              <Link
+                href="/auth/login"
+                className={cn(buttonVariants({ variant: 'outline' }), 'w-full')}
+              >
                 Login
               </Link>
-              <Link href="/auth/register" className={cn(buttonVariants({ variant: 'default' }), 'w-full')}>
-                Register
+              <Link
+                href="/auth/register"
+                className={cn(buttonVariants({ variant: 'default' }), 'w-full bg-[#0d3286] hover:bg-[#0d3286]/90')}
+              >
+                Sign Up
               </Link>
             </div>
           )

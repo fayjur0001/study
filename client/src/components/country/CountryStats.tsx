@@ -27,7 +27,7 @@ export default function CountryStats({ country }: CountryStatsProps) {
           key={stat.label}
           className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#0d3286]/5 text-[#0d3286]">
             <stat.icon className="h-4 w-4" />
           </div>
           <p className="mt-4 text-xs font-medium uppercase tracking-wide text-slate-400">
